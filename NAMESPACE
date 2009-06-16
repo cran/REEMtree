@@ -1,0 +1,15 @@
+import(nlme)
+import(rpart)
+import(methods)
+
+export(AutoCorrelationLRtest, REEMtree, tree,
+	is.REEMtree,  logLik.REEMtree,plot.REEMtree, predict.REEMtree,
+	print.REEMtree, ranef.REEMtree, tree.REEMtree) 
+
+S3method(is,REEMtree)
+S3method(logLik,REEMtree)
+S3method(plot,REEMtree)
+S3method(predict,REEMtree)
+S3method(print, REEMtree)
+S3method(ranef,REEMtree)
+S3method(tree,REEMtree)
