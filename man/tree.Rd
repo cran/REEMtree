@@ -1,7 +1,7 @@
 \name{tree}
 \alias{tree}
 \alias{tree.REEMtree}
-\title{Extracts the regression tree associated with a RE-EM tree}
+\title{Extract the regression tree associated with a RE-EM tree}
 \description{
 Returns the fitted \code{rpart} object associated with a \code{REEMtree} object.
 }

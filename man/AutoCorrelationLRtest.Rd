@@ -23,6 +23,7 @@ In general, \code{newdata} is likely to be the data used to estimate \code{objec
 }
 \references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
+\seealso{\code{\link{corClasses}}}
 \examples{
 data(simpleREEMdata)
 

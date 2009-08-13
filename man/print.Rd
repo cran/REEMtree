@@ -1,6 +1,6 @@
 \name{print}
 \alias{print.REEMtree}
-\title{Prints a RE-EM Tree object}
+\title{Print a RE-EM Tree object}
 \description{
 This function prints a description of a fitted RE-EM tree object.
 }

@@ -1,6 +1,6 @@
 \name{plot}
 \alias{plot.REEMtree}
-\title{Plotting the RE-EM tree}
+\title{Plot the RE-EM tree}
 \description{
 Plots the regression tree associated with a RE-EM tree.
 }

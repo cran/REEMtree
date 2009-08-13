@@ -30,7 +30,7 @@ REEMtree(formula, data, random, subset = NULL,
 }
 \references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
-\seealso{\code{\link{rpart}}, \code{\link{nlme}}, \code{\link{REEMtree.object}}}
+\seealso{\code{\link{rpart}}, \code{\link{nlme}}, \code{\link{REEMtree.object}}, \code{\link{corClasses}}}
 \examples{
 data(simpleREEMdata)
 REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID)

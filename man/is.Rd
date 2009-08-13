@@ -1,6 +1,6 @@
 \name{is}
 \alias{is.REEMtree}
-\title{Is a RE-EM tree object object}
+\title{Is a RE-EM tree object}
 \description{
 This function tests whether an object is of the \code{REEMtree} class.
 }

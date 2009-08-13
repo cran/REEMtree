@@ -15,7 +15,7 @@ a vector containing the estimated random effects
 }
 \references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
-\seealso{\code{\link[nlme]{ranef}}, \code{link{REEMtree.object}}}
+\seealso{\code{\link[nlme]{random.effects}}, \code{\link{REEMtree.object}}}
 \examples{
 data(simpleREEMdata)
 REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID)
