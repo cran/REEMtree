@@ -1,7 +1,7 @@
 citHeader("To cite the package 'REEMtree' in publications, use:")
-desc <- packageDescription("REEMtree")
-year <- sub(".*(2[[:digit:]]{3}-.*", "\\1", desc$Date)
-vers <- paste("R package version:, desc$Version)
+  if(!exists("meta") || is.null(meta)) meta <- packageDescription("mixlow")
+  year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+  vers <- paste("R package version", meta$Version)
 
 citEntry(entry = "Manual",
 	title = "REEMtree: Regression Trees with Random Effects",
