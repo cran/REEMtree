@@ -42,7 +42,12 @@ tree <- function(object,...){
 # 	likelihoodCheck [TRUE] - should the likelihood be used to check for
 #		convergence?  (if not, the random effects are checked instead)
 #	verbose [FALSE] - print intermediate trees
+#	### These options pertain to the RPART part of estimation
 #	tree.control [rpart.control] - controls to be passed through to rpart
+#	cv [TRUE] - Should cross-validation be used?
+#	cpmin [0.0001] - complexity parameter used in building a tree before cross-validation
+#	cpcv [0.01] - complexity used for pruning in a cross-validated tree
+#	no.SE [0] - number of standard errors used in pruning (0 if unused)
 #	### These options pertain to the LME part of estimation
 #	lme.control [lmeControl(returnObject=TRUE)] - controls to be passed through to LME
 #	method ["REML"] - "ML" or "REML", depending on whether the effects should be estimated
@@ -50,6 +55,7 @@ tree <- function(object,...){
 #	correlation [NULL] - an option CorStruct object describing the within-group correlation structure
 REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs), 
 		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(), 
+		cv=TRUE, cpmin = 0.0001, cpcv = 0.01, no.SE =0,
 		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL){
     TotalObs <- dim(data)[1]
 
@@ -94,8 +100,29 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 	iterations <- iterations+1
 
 	# Compute current tree
-	tree <- rpart(formula(paste(c("AdjustedTarget",Predictors),collapse="~")), data=newdata, 
-		subset=subs, method="anova", control=tree.control)
+         if (cv) {
+             tree1 <- rpart(formula(paste(c("AdjustedTarget", Predictors),
+                 collapse = "~")), data = newdata, subset = subs,
+                 method = "anova", control = rpart.control(cp=cpmin))
+             if (nrow(tree1$cptable)==1){
+               tree <- tree1}
+             else {
+               cventry <- which.min(tree1$cptable[, "xerror"])
+               if (no.SE == 0){
+                 cpcv <- tree1$cptable[cventry, "CP"]
+                 tree <- prune(tree1, cp=cpcv)}
+               else {
+                 xerrorcv <- tree1$cptable[cventry, "xerror"]
+                 sexerrorcv <- xerrorcv + tree1$cptable[cventry, "xstd"] * no.SE
+                 cpcvse <- tree1$cptable[which.max(tree1$cptable[, "xerror"] <= sexerrorcv), "CP"]
+                 tree <- prune(tree1, cp=cpcv)}
+         	}
+	  }
+         else {
+             tree <- rpart(formula(paste(c("AdjustedTarget", Predictors),
+                 collapse = "~")), data = newdata, subset = subs,
+                 method = "anova", control = tree.control)
+         }
 	if(verbose) print(tree)
 
 	## Estimate New Random Effects and Errors using LME
@@ -111,6 +138,8 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 	    lmefit <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random, 
 			subset=SubsetVector, method=method, control=lme.control, correlation=correlation)
         }
+         adjtarg <- unique(cbind(tree$where, predict(lmefit, level=0)))
+         tree$frame[adjtarg[,1],]$yval <- adjtarg[,2]
 
 	if(verbose){
 	    print(lmefit)
@@ -136,13 +165,17 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
     attr(residuals, "label") <- NULL
 
 
+   adjtarg <- unique(cbind(tree$where, predict(lmefit, level=0)))
+   tree$frame[adjtarg[,1],]$yval <- adjtarg[,2]
+
+
 
     result <- list(Tree=tree, EffectModel=lmefit, RandomEffects=ranef(lmefit),
 		BetweenMatrix=as.matrix(lmefit$modelStruct$reStruct[[1]])*lmefit$sigma^2,
 		ErrorVariance=lmefit$sigma^2, data=data, logLik=newlik,
 		IterationsUsed=iterations, Formula=formula, Random=random, Subset=subs,
 		ErrorTolerance=ErrorTolerance, correlation=correlation,
-		residuals=residuals, method=method, lme.control=lme.control, tree.control=tree.control)
+		residuals=residuals, method=method, cv=cv, lme.control=lme.control, tree.control=tree.control)
     class(result) <- "REEMtree"
 
     return(result)
