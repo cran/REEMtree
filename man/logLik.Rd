@@ -13,7 +13,7 @@ logLik.REEMtree(object,...)
 }
 \value{
 the log-likelihood of the fitted effects model associated with \code{x}}
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{REEMtree.object}}}
 \examples{

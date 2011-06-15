@@ -21,7 +21,7 @@ In general, \code{newdata} is likely to be the data used to estimate \code{objec
   \item{loglikAR}{Likelihood of the random effects model if autocorrelation (of type AR(1)) is estimated}
   \item{pvalue}{P-value of the likelihood ratio test}
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{corClasses}}}
 \examples{

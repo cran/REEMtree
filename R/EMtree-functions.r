@@ -1,8 +1,6 @@
 ### EMtree-functions.r
 # This file contains helper functions for the 
 # EMtree.r code.
-# Created by Rebecca Sela, 7/2/07
-# Final editing, 3/19/2009, by Rebecca Sela
 
 
 ### Function: tree
@@ -115,7 +113,7 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
                  xerrorcv <- tree1$cptable[cventry, "xerror"]
                  sexerrorcv <- xerrorcv + tree1$cptable[cventry, "xstd"] * no.SE
                  cpcvse <- tree1$cptable[which.max(tree1$cptable[, "xerror"] <= sexerrorcv), "CP"]
-                 tree <- prune(tree1, cp=cpcv)}
+                 tree <- prune(tree1, cp=cpcvse)}
          	}
 	  }
          else {
@@ -387,6 +385,28 @@ AutoCorrelationLRtest <- function(object, newdata=NULL, correlation=corAR1()){
 
     return(invisible(list(correlation=correlation, loglik0=loglik0,loglikAR=loglikAR, 
 		pvalue=pchisq(-2*(loglik0-loglikAR), 1, lower.tail=FALSE))))
+}
+
+### Function: fitted
+# This function replicated the fitted() function of LME (so that you don't have to call
+# fitted(reem.result$EffectModel) instead).
+fitted.REEMtree <- function(object, level=-1, asList=FALSE,...){
+    if(level==-1){
+	level <- dim(object$EffectModel$fitted)[2]-1
+	print(level)
+    } 
+    return(fitted(object$EffectModel, level, asList))
+}
+
+### Function: residuals
+# This function replicated the residuals() function of LME (so that you don't have to call
+# residuals(reem.result$EffectModel) instead).
+residuals.REEMtree <- function(object,level=-1, type="pearson", asList=FALSE,...){
+    if(level==-1){
+	level <- dim(object$EffectModel$fitted)[2]-1
+	print(level)
+    } 
+    return(residuals(object$EffectModel, level, type,asList))
 }
 
 

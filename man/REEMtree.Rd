@@ -31,7 +31,7 @@ REEMtree(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs
 \value{
   an object of class \code{REEMtree}
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{rpart}}, \code{\link{nlme}}, \code{\link{REEMtree.object}}, \code{\link{corClasses}}}
 \examples{

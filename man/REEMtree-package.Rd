@@ -17,7 +17,7 @@ License: \tab GPL \cr
 }
 }
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
 % \keyword{package} - NOT SURE WHY THIS DOESN'T WORK!
 \keyword{tree}
 \examples{

@@ -15,5 +15,5 @@ The data has 600 rows and 5 columns.  The columns are:
 \item{\code{X}}{another covariate (which is intentionally unrelated to the target variable)}
 }
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}.}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
 \keyword{datasets}
