@@ -15,7 +15,7 @@ plot.REEMtree(x, text = TRUE, ...)
 \value{
 the coordinates of the nodes are returned as a list, with components \code{x} and \code{y}.
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{REEMtree}}, \code{\link{plot.rpart}}}
 \examples{

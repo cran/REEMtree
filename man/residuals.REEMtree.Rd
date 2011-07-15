@@ -16,7 +16,7 @@ residuals.REEMtree(object, level, type, asList, ...)
 \value{
 If the level is a single value, the result is a vector or list (depending on \code{asList}) with the residuals.  Otherwise, the result is a data frame with columns given by the residuals at different levels.
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link[stats]{residuals}}, \code{\link{REEMtree.object}}}
 \examples{

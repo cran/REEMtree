@@ -25,7 +25,7 @@ Important note: In this implementation, estimation of group effects for new grou
 \value{
 a vector containing the predicted values
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal Data}, \emph{Machine Learning}, forthcoming; Laird, N. M., and J. H. Ware (1982), \dQuote{Random-effects models for longitudinal data}, \emph{Biometrics} 38: 963-974}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal Data}, \emph{Machine Learning}, 2011; Laird, N. M., and J. H. Ware (1982), \dQuote{Random-effects models for longitudinal data}, \emph{Biometrics} 38: 963-974}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{predict.nlme}}, \code{\link{predict.rpart}}}
 \examples{

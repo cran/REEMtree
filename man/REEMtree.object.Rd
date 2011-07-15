@@ -26,7 +26,7 @@ Object representing a fitted \code{REEMtree}.
 \item{tree.control}{parameters used to control fitting the regression tree}
 
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{rpart}}, \code{\link{nlme}}, \code{\link{REEMtree}}}
 \examples{

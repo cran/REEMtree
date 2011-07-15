@@ -53,7 +53,7 @@ tree <- function(object,...){
 #	correlation [NULL] - an option CorStruct object describing the within-group correlation structure
 REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs), 
 		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(), 
-		cv=TRUE, cpmin = 0.0001, cpcv = 0.01, no.SE =0,
+		cv=TRUE, cpmin = 0.001, no.SE =1,
 		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL){
     TotalObs <- dim(data)[1]
 

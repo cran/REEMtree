@@ -7,7 +7,7 @@ Fit a RE-EM tree to data.  This estimates a regression tree combined with a line
 \usage{
 REEMtree(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs), 
 		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(), 
-		cv=TRUE, cpmin = 0.0001, cpcv = 0.01, no.SE =0,
+		cv=TRUE, cpmin = 0.001, no.SE =1,
 		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL)
 }
 \arguments{
@@ -22,7 +22,6 @@ REEMtree(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs
   \item{tree.control}{a list of control values for the estimation algorithm to replace the default values used to control the \code{rpart} algorithm. Defaults to an empty list.}
   \item{cv}{if \code{TRUE} then cross-validation will be used for estimating the tree at each iteration.  Default is \code{TRUE}.}
   \item{cpmin}{complexity parameter used in building a tree before cross-validation}
-  \item{cpcv}{complexity used for pruning in a cross-validated tree}
   \item{no.SE}{number of standard errors used in pruning (0 if unused)}
   \item{lme.control}{a list of control values for the estimation algorithm to replace the default values returned by the function \code{lmeControl}. Defaults to an empty list.}
   \item{method}{whether the linear model should be estimated with \code{ML} or \code{REML} }
@@ -31,7 +30,7 @@ REEMtree(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs
 \value{
   an object of class \code{REEMtree}
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \seealso{\code{\link{rpart}}, \code{\link{nlme}}, \code{\link{REEMtree.object}}, \code{\link{corClasses}}}
 \examples{

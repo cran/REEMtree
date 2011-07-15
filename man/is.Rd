@@ -13,7 +13,7 @@ is.REEMtree(object)
 \value{
     \code{TRUE} if the object is of the \code{REEMtree} type 
 }
-\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A New Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (forthcoming).}
+\references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}
 \author{Rebecca Sela \email{rsela@stern.nyu.edu}}
 \examples{
 data(simpleREEMdata)
