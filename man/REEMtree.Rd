@@ -54,7 +54,6 @@ data("Grunfeld", package = "AER")
 REEMtree(invest ~ value + capital, data=Grunfeld, random=~1|firm)
 REEMtree(invest ~ value + capital, data=Grunfeld, random=~1|firm, correlation=corAR1())
 REEMtree(invest ~ value + capital, data=Grunfeld, random=~1+year|firm)
-REEMtree(invest ~ value + capital, data=Grunfeld, random=~1+year|firm, correlation=corAR1())
 REEMtree(invest ~ value + capital, data=Grunfeld, random=~1|firm/year)
 
 }
