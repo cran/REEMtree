@@ -5,7 +5,7 @@
 Plots the regression tree associated with a RE-EM tree.
 }
 \usage{
-plot.REEMtree(x, text = TRUE, ...)
+  \method{plot}{REEMtree}(x, text = TRUE, ...)
 }
 \arguments{
   \item{x}{a fitted object of class \code{REEMtree}}

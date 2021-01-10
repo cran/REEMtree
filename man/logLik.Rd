@@ -5,7 +5,7 @@
 This returns the log-likelihood of the effects model of a RE-EM tree. This is the log-likelihood of the random effects model estimated in the RE-EM tree.  (The regression tree is not associated with a log-likelihood.)
 }
 \usage{
-logLik.REEMtree(object,...)
+  \method{logLik}{REEMtree}(object,...)
 }
 \arguments{
   \item{object}{an object of class \code{REEMtree}}

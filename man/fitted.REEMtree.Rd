@@ -2,9 +2,9 @@
 \alias{fitted.REEMtree}
 \title{Extract the fitted values from a RE-EM tree}
 \description{
-This function extracts the fitted values from the LME object underlying the RE-EM tree.  The fitted values are the fixed effects (from the tree) plus the estimated contributions of the random effects to the fitted values at grouping levels less or equal to the level given.} 
+This function extracts the fitted values from the LME object underlying the RE-EM tree.  The fitted values are the fixed effects (from the tree) plus the estimated contributions of the random effects to the fitted values at grouping levels less or equal to the level given.}
 \usage{
-fitted.REEMtree(object, level, asList, ...)
+ \method{fitted}{REEMtree}(object, level, asList, ...)
 }
 \arguments{
   \item{object}{an object of class \code{REEMtree}}

@@ -5,7 +5,7 @@
 Returns a vector of predictions from a fitted RE-EM Tree.  Predictions are based on the node of the tree in which the new observation would fall and (optionally) an estimated random effect for the observation.
 }
 \usage{
-predict.REEMtree(object, newdata, id = NULL, 
+  \method{predict}{REEMtree}(object, newdata, id = NULL,
 	EstimateRandomEffects = TRUE, ...)
 }
 \arguments{
@@ -16,9 +16,9 @@ predict.REEMtree(object, newdata, id = NULL,
   \item{\dots}{additional arguments that will be passed through to \code{rpart}}
 }
 \details{
-If \code{EstimateRandomEffects=TRUE} and a group was not used in the original estimation, its random effect must be estimated.  If there are no non-missing values of the target variable for this group, then the new effect is set to 0.  
+If \code{EstimateRandomEffects=TRUE} and a group was not used in the original estimation, its random effect must be estimated.  If there are no non-missing values of the target variable for this group, then the new effect is set to 0.
 
-If there are non-missing values of the target variable, then the random effect is estimated based on the estimated variance of the errors and variance of the random effects in the fitted model.  See Equation 3.2 of Laird and Ware (1982) for the precise relationship.  
+If there are non-missing values of the target variable, then the random effect is estimated based on the estimated variance of the errors and variance of the random effects in the fitted model.  See Equation 3.2 of Laird and Ware (1982) for the precise relationship.
 
 Important note: In this implementation, estimation of group effects for new groups can be used only with group-specific intercepts are estimated with only one grouping variable.
 }
@@ -34,18 +34,18 @@ REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID)
 predict(REEMresult, simpleREEMdata, EstimateRandomEffects=FALSE)
 predict(REEMresult, simpleREEMdata, id=simpleREEMdata$ID, EstimateRandomEffects=TRUE)
 
-# Estimation based on a subset that excludes the last two time series, 
+# Estimation based on a subset that excludes the last two time series,
 # with predictions for all observations
 sub <- rep(c(rep(TRUE, 10), rep(FALSE, 2)), 50)
-REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID, 
+REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID,
 	subset=sub)
 pred1 <- predict(REEMresult, simpleREEMdata, EstimateRandomEffects=FALSE)
 pred2 <- predict(REEMresult, simpleREEMdata, id=simpleREEMdata$ID, EstimateRandomEffects=TRUE)
 
-# Estimation based on a subset that excludes the last five individuals, 
+# Estimation based on a subset that excludes the last five individuals,
 # with predictions for all observations
 sub <- c(rep(TRUE, 540), rep(FALSE, 60))
-REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID, 
+REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID,
 	subset=sub)
 pred3 <- predict(REEMresult, simpleREEMdata, EstimateRandomEffects=FALSE)
 pred4 <- predict(REEMresult, simpleREEMdata, id=simpleREEMdata$ID, EstimateRandomEffects=TRUE)

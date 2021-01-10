@@ -4,7 +4,7 @@
 \description{
 This function extracts the estimated random effects from a fitted RE-EM tree.}
 \usage{
-ranef.REEMtree(object,...)
+  \method{ranef}{REEMtree}(object,...)
 }
 \arguments{
   \item{object}{an object of class \code{REEMtree}}

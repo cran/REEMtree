@@ -4,7 +4,7 @@
 \description{
 This function extracts the residuals from the LME object underlying the RE-EM tree.  The residuals depend on the fixed effects (from the tree) plus the estimated contributions of the random effects to the fitted values at grouping levels less or equal to the level given. }
 \usage{
-residuals.REEMtree(object, level, type, asList, ...)
+  \method{residuals}{REEMtree}(object, level, type, asList, ...)
 }
 \arguments{
   \item{object}{an object of class \code{REEMtree}}

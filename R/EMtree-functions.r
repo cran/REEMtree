@@ -1,5 +1,5 @@
 ### EMtree-functions.r
-# This file contains helper functions for the 
+# This file contains helper functions for the
 # EMtree.r code.
 
 
@@ -11,7 +11,7 @@ tree <- function(object,...){
 }
 
 
-	
+
 ### Function: REEMtree
 # This program runs the main EM/tree algorithm of
 # Simonoff & Sela.
@@ -51,8 +51,13 @@ tree <- function(object,...){
 #	method ["REML"] - "ML" or "REML", depending on whether the effects should be estimated
 #		with maximum likelihood or restricted maximum likelihood
 #	correlation [NULL] - an option CorStruct object describing the within-group correlation structure
-REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs), 
-		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(), 
+
+library(nlme)
+library(rpart)
+
+
+REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs),
+		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(),
 		cv=TRUE, cpmin = 0.001, no.SE =1,
 		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL){
     TotalObs <- dim(data)[1]
@@ -60,7 +65,7 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
     originaldata <- data
 
     # Subset the data if necessary
-    if(identical(subset, NULL)){ 
+    if(identical(subset, NULL)){
 	subs <- rep(TRUE, dim(data)[1])
     } else {
 	subs <- subset
@@ -70,14 +75,14 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
     Predictors <- paste(attr(terms(formula),"term.labels"),collapse="+")
     TargetName <- formula[[2]]
     # Remove the name of the data frame if necessary
-    if(length(TargetName)>1) 
+    if(length(TargetName)>1)
 	TargetName <-TargetName[3]
     if(verbose) print(paste("Target variable: ", TargetName))
 
     Target <- data[,toString(TargetName)]
 
 
-    # Condition that indicates the loop has not converged or 
+    # Condition that indicates the loop has not converged or
     # run out of iterations
     ContinueCondition <- TRUE
 
@@ -90,7 +95,8 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
     # Make a new data frame to include all the new variables
     newdata <- data
     newdata[, "SubsetVector"] <- subs
-
+    SubsetVector <- subs
+    
     while(ContinueCondition){
 
 	# Current values of variables
@@ -99,6 +105,7 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 
 	# Compute current tree
          if (cv) {
+
              tree1 <- rpart(formula(paste(c("AdjustedTarget", Predictors),
                  collapse = "~")), data = newdata, subset = subs,
                  method = "anova", control = rpart.control(cp=cpmin))
@@ -117,9 +124,9 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
          	}
 	  }
          else {
-             tree <- rpart(formula(paste(c("AdjustedTarget", Predictors),
-                 collapse = "~")), data = newdata, subset = subs,
-                 method = "anova", control = tree.control)
+           tree <- rpart(formula(paste(c("AdjustedTarget", Predictors),
+                                       collapse = "~")), data = newdata, subset = subs,
+                         method = "anova", control = tree.control)
          }
 	if(verbose) print(tree)
 
@@ -129,15 +136,17 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 	newdata[subs,"nodeInd"] <- tree$where
 	# Fit linear model with nodes as predictors (we use the original target so likelihoods are comparable)
 	# Check that the fitted tree has at least two nodes.
-        if(min(tree$where)==max(tree$where)){
-	    lmefit <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random, 
+    if(min(tree$where)==max(tree$where)){
+	    lmefit <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random,
 			subset=SubsetVector, method=method, control=lme.control, correlation=correlation)
-	} else {
-	    lmefit <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random, 
+	   } else {
+	    lmefit <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random,
 			subset=SubsetVector, method=method, control=lme.control, correlation=correlation)
-        }
-         adjtarg <- unique(cbind(tree$where, predict(lmefit, level=0)))
-         tree$frame[adjtarg[,1],]$yval <- adjtarg[,2]
+	   }
+
+	  # population prediction for each leaf
+    adjtarg <- unique(cbind(tree$where, predict(lmefit, level=0)))
+    tree$frame[adjtarg[,1],]$yval <- adjtarg[,2]
 
 	if(verbose){
 	    print(lmefit)
@@ -156,7 +165,7 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 	# Extract random effects to make the new adjusted target
 	AllEffects <- lmefit$residuals[,1]-lmefit$residuals[,dim(lmefit$residuals)[2]]
 	AdjustedTarget[subs] <- Target[subs] - AllEffects
-    }
+}
 
     residuals <- rep(NA, length=length(Target))
     residuals[subs] <- Target[subs]-predict(lmefit)
@@ -180,7 +189,6 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 }
 
 
-
 ### Function: plot.REEMtree
 # This function plots the tree part of a RE-EM tree,
 # along with its text.
@@ -193,7 +201,7 @@ plot.REEMtree <- function(x, text=TRUE,...){
 }
 
 ### Function: print.REEMtree
-# This function prints the RE-EM tree and the 
+# This function prints the RE-EM tree and the
 # associated covariances.
 print.REEMtree <- function(x,...){
     print("*** RE-EM Tree ***")
@@ -215,8 +223,8 @@ logLik.REEMtree <- function(object,...){
 # This function predicts new observations for a RE-EM
 # tree, given a dataset with columns of the same names.
 # If the options EstimateRandomEffects is true, then
-# this function will check the dataset for non-missing 
-# values of the target with which to estimate the 
+# this function will check the dataset for non-missing
+# values of the target with which to estimate the
 # random effects for observations; otherwise, it will
 # use only the tree estimates, which sets the random
 # effects to 0.
@@ -225,7 +233,7 @@ logLik.REEMtree <- function(object,...){
 # Inputs:
 # object - RE-EM tree
 # newdata - new data set (with the same variable names)
-# id [NULL] - a vector containing the identifiers for the groups 
+# id [NULL] - a vector containing the identifiers for the groups
 # 	(needed only if random effects are estimated and newdata is not the data used for estimation)
 # EstimateRandomEffects [TRUE] - should random effects be estimated from the given data?
 # ... - other arguments to be passed through to RPART
@@ -235,7 +243,7 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
     # Base predictions from the tree part
     treePrediction <- predict(object$Tree,newdata,...)
 
-    # If we aren't estimating random effects, we 
+    # If we aren't estimating random effects, we
     # just use the tree for prediction.
     if(!EstimateRandomEffects){
 	return(treePrediction)
@@ -243,7 +251,7 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
 
     # Get the group identifiers if necessary
     if(is.null(id)){
-	id <- object$EffectModel$groups
+	    id <- object$EffectModel$groups[ ,1]
     }
 
     # Error-checking: the number of observations
@@ -255,7 +263,7 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
     ### Use the formula to get the target name
     TargetName <- object$Formula[[2]]
     # Remove the name of the data frame if necessary
-    if(length(TargetName)>1) 
+    if(length(TargetName)>1)
 	TargetName <-TargetName[3]
     ActualTarget <- newdata[,toString(TargetName)]
 
@@ -268,10 +276,11 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
 
     # Get the random effects from the estimated RE-EM tree, in case there is overlap
     estRE <- ranef(object)
-    
+
     for(i in 1:length(uniqueID)){
         # Identify the new group in the data
 	nextID <- uniqueID[i]
+
 	thisGroup <- id==nextID
 
 	# If this group was in the original estimation, apply its random effect
@@ -288,11 +297,12 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
 	    	R <- object$ErrorVariance * diag(numAvailable)
 	    	D <- object$BetweenMatrix
 	    	Z <- matrix(data=1,ncol=1, nrow=numAvailable)
-    	    	W <- solve(R + Z %*% D %*% t(Z))
-	    	effect <- D %*% t(Z) %*% W %*% 
+    	  W <- solve(R + Z %*% D %*% t(Z))
+	    	effect <- D %*% t(Z) %*% W %*%
 			subset(ActualTarget[thisGroup] - treePrediction[thisGroup],subset=nonMissing)
-	    	completePrediction[thisGroup] <- treePrediction[thisGroup]+effect
+	    	completePrediction[thisGroup] <- treePrediction[thisGroup]+as.vector(effect)
 	    }
+
 	} else {
 	    completePrediction[thisGroup] <- treePrediction[thisGroup]+estEffect
 	}
@@ -304,7 +314,7 @@ predict.REEMtree <- function(object, newdata, id=NULL, EstimateRandomEffects=TRU
 
 ### Function: ranef.REEMtree
 # This function extracts the vector of estimated random effects
-# from a RE-EM tree.  
+# from a RE-EM tree.
 ranef.REEMtree <- function(object,...){
     return(object$RandomEffects)
 }
@@ -330,10 +340,10 @@ is.REEMtree <- function(object){
 }
 
 ### Function: AutoCorrelationLRtest
-# This function takes in a RE-EM tree and computes a likelihood ratio test 
+# This function takes in a RE-EM tree and computes a likelihood ratio test
 # to check if there is autocorrelation (of the AR(1) type) in the errors).
-# Note that this test keeps the tree structure fixed and re-estimates the 
-# LME part only.  
+# Note that this test keeps the tree structure fixed and re-estimates the
+# LME part only.
 # Inputs:
 #	object - a RE-EM tree
 #	newdata [NULL] - dataset on which the test is to be performed (the original dataset by default)
@@ -348,7 +358,7 @@ AutoCorrelationLRtest <- function(object, newdata=NULL, correlation=corAR1()){
     formula <- object$Formula
     TargetName <- formula[[2]]
     # Remove the name of the data frame if necessary
-    if(length(TargetName)>1) 
+    if(length(TargetName)>1)
 	TargetName <-TargetName[3]
     random <- object$Random
     method <- object$method
@@ -361,14 +371,14 @@ AutoCorrelationLRtest <- function(object, newdata=NULL, correlation=corAR1()){
     # Fit the two linear models with nodes as predictors, with and without AR(1) correlation
     # Check that the fitted tree has at least two nodes.
     if(min(newdata$nodeInd)==max(newdata$nodeInd)){
-	lme0 <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random, 
+	lme0 <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random,
 			method=method, control=lme.control, correlation=NULL)
-	lmeAR <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random, 
+	lmeAR <- lme(formula(paste(c(toString(TargetName),1), collapse="~")), data=newdata, random=random,
 			method=method, control=lme.control, correlation=correlation)
     } else {
-	lme0 <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random, 
+	lme0 <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random,
 			method=method, control=lme.control, correlation=NULL)
-	lmeAR <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random, 
+	lmeAR <- lme(formula(paste(c(toString(TargetName),"as.factor(nodeInd)"), collapse="~")), data=newdata, random=random,
 			method=method, control=lme.control, correlation=correlation)
     }
 
@@ -383,7 +393,7 @@ AutoCorrelationLRtest <- function(object, newdata=NULL, correlation=corAR1()){
     print(paste("Test statistic:",-2*(loglik0-loglikAR)))
     print(paste("Asymptotic P-value:", pchisq(-2*(loglik0-loglikAR), 1, lower.tail=FALSE)))
 
-    return(invisible(list(correlation=correlation, loglik0=loglik0,loglikAR=loglikAR, 
+    return(invisible(list(correlation=correlation, loglik0=loglik0,loglikAR=loglikAR,
 		pvalue=pchisq(-2*(loglik0-loglikAR), 1, lower.tail=FALSE))))
 }
 
@@ -394,7 +404,7 @@ fitted.REEMtree <- function(object, level=-1, asList=FALSE,...){
     if(level==-1){
 	level <- dim(object$EffectModel$fitted)[2]-1
 	print(level)
-    } 
+    }
     return(fitted(object$EffectModel, level, asList))
 }
 
@@ -405,7 +415,7 @@ residuals.REEMtree <- function(object,level=-1, type="pearson", asList=FALSE,...
     if(level==-1){
 	level <- dim(object$EffectModel$fitted)[2]-1
 	print(level)
-    } 
+    }
     return(residuals(object$EffectModel, level, type,asList))
 }
 

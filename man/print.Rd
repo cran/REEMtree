@@ -5,7 +5,7 @@
 This function prints a description of a fitted RE-EM tree object.
 }
 \usage{
-print.REEMtree(x,...)
+ \method{print}{REEMtree}(x,...)
 }
 \arguments{
   \item{x}{fitted model of class \code{REEMtree}}

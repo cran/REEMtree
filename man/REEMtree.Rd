@@ -5,10 +5,13 @@
 Fit a RE-EM tree to data.  This estimates a regression tree combined with a linear random effects model.
 }
 \usage{
-REEMtree(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs), 
-		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(), 
-		cv=TRUE, cpmin = 0.001, no.SE =1,
-		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL)
+REEMtree(formula, data, random, subset=NULL,
+         initialRandomEffects=rep(0,TotalObs),
+         ErrorTolerance=0.001, MaxIterations=1000,
+         verbose=FALSE, tree.control=rpart.control(),
+         cv=TRUE, cpmin = 0.001, no.SE =1,
+         lme.control=lmeControl(returnObject=TRUE),
+         method="REML", correlation=NULL)
 }
 \arguments{
   \item{formula}{a formula, as in the \code{lm} or \code{rpart} function}
@@ -38,7 +41,7 @@ data(simpleREEMdata)
 REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID)
 
 # Estimation allowing for autocorrelation
-REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID, 
+REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID,
 	correlation=corAR1())
 
 # Random parameters model for the random effects
@@ -46,7 +49,7 @@ REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1+X|ID)
 
 # Estimation with a subset
 sub <- rep(c(rep(TRUE, 10), rep(FALSE, 2)), 50)
-REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID, 
+REEMresult<-REEMtree(Y~D+t+X, data=simpleREEMdata, random=~1|ID,
 	subset=sub)
 
 # Dataset from the R library "AER"
