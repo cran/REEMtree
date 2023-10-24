@@ -8,8 +8,8 @@ Fit a RE-EM tree to data.  This estimates a regression tree combined with a line
 REEMtree(formula, data, random, subset=NULL,
          initialRandomEffects=rep(0,TotalObs),
          ErrorTolerance=0.001, MaxIterations=1000,
-         verbose=FALSE, tree.control=rpart.control(),
-         cv=TRUE, cpmin = 0.001, no.SE =1,
+         verbose=FALSE, tree.control=rpart.control(cp=0.001),
+         cv=TRUE, no.SE =1,
          lme.control=lmeControl(returnObject=TRUE),
          method="REML", correlation=NULL)
 }
@@ -24,7 +24,6 @@ REEMtree(formula, data, random, subset=NULL,
   \item{verbose}{if \code{TRUE}, the current estimate of the RE-EM tree will be printed after each iteration}
   \item{tree.control}{a list of control values for the estimation algorithm to replace the default values used to control the \code{rpart} algorithm. Defaults to an empty list.}
   \item{cv}{if \code{TRUE} then cross-validation will be used for estimating the tree at each iteration.  Default is \code{TRUE}.}
-  \item{cpmin}{complexity parameter used in building a tree before cross-validation}
   \item{no.SE}{number of standard errors used in pruning (0 if unused)}
   \item{lme.control}{a list of control values for the estimation algorithm to replace the default values returned by the function \code{lmeControl}. Defaults to an empty list.}
   \item{method}{whether the linear model should be estimated with \code{ML} or \code{REML} }

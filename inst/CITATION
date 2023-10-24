@@ -3,10 +3,10 @@ citHeader("To cite the package 'REEMtree' in publications, use:")
   year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
   vers <- paste("R package version", meta$Version)
 
-citEntry(entry = "Manual",
+bibentry(bibtype = "Manual",
 	title = "REEMtree: Regression Trees with Random Effects",
-	author = personList(as.person("Rebecca J. Sela"),
-			as.person("Jeffrey S. Simonoff")),
+	author = c(as.person("Rebecca J. Sela"),
+		   as.person("Jeffrey S. Simonoff")),
 	year = year,
 	note = vers,
 

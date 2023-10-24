@@ -8,11 +8,11 @@ This data set is consists of a panel of 50 individuals with 12 observations per 
 \format{
 The data has 600 rows and 5 columns.  The columns are: 
 \itemize{
-\item{\code{Y}}{the target variable}
-\item{\code{t}}{a numeric predictor ("time")}
-\item{\code{D}}{a catergorical predictor with two levels, 0 and 1}
-\item{\code{ID}}{the identifier for each individual}
-\item{\code{X}}{another covariate (which is intentionally unrelated to the target variable)}
+\item \code{Y} - the target variable
+\item \code{t} - a numeric predictor ("time")
+\item \code{D} - a catergorical predictor with two levels, 0 and 1
+\item \code{ID} - the identifier for each individual
+\item \code{X} - another covariate (which is intentionally unrelated to the target variable)
 }
 }
 \references{Sela, Rebecca J., and Simonoff, Jeffrey S., \dQuote{RE-EM Trees: A Data Mining Approach for Longitudinal and Clustered Data}, \emph{Machine Learning} (2011).}

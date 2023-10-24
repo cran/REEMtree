@@ -37,14 +37,10 @@ tree <- function(object,...){
 #	initialRandomEffects [0] - a vector of initial values for random effects
 #	ErrorTolerance [0.001]
 #	MaxIterations [1000]
-# 	likelihoodCheck [TRUE] - should the likelihood be used to check for
-#		convergence?  (if not, the random effects are checked instead)
 #	verbose [FALSE] - print intermediate trees
 #	### These options pertain to the RPART part of estimation
 #	tree.control [rpart.control] - controls to be passed through to rpart
 #	cv [TRUE] - Should cross-validation be used?
-#	cpmin [0.0001] - complexity parameter used in building a tree before cross-validation
-#	cpcv [0.01] - complexity used for pruning in a cross-validated tree
 #	no.SE [0] - number of standard errors used in pruning (0 if unused)
 #	### These options pertain to the LME part of estimation
 #	lme.control [lmeControl(returnObject=TRUE)] - controls to be passed through to LME
@@ -57,8 +53,8 @@ library(rpart)
 
 
 REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=rep(0,TotalObs),
-		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(),
-		cv=TRUE, cpmin = 0.001, no.SE =1,
+		ErrorTolerance=0.001, MaxIterations=1000, verbose=FALSE, tree.control=rpart.control(cp=0.001),
+		cv=TRUE, no.SE=1,
 		lme.control=lmeControl(returnObject=TRUE), method="REML", correlation=NULL){
     TotalObs <- dim(data)[1]
 
@@ -108,7 +104,7 @@ REEMtree <- function(formula, data, random, subset=NULL, initialRandomEffects=re
 
              tree1 <- rpart(formula(paste(c("AdjustedTarget", Predictors),
                  collapse = "~")), data = newdata, subset = subs,
-                 method = "anova", control = rpart.control(cp=cpmin))
+                 method = "anova", control = tree.control)
              if (nrow(tree1$cptable)==1){
                tree <- tree1}
              else {
